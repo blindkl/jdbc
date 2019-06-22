@@ -9,7 +9,31 @@ public class JdbcMain {
         statement();
         preparedStatement();
         callableStatement();
+        getPreparedStatement2();
     }
+
+    private static void getPreparedStatement2() {
+        try (Connection connection = getConnection()) {
+            int minSalary = 100;
+            String query = "select ename, job, sal, mgr from sdajdbc.employee where sal > ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, minSalary);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String ename = resultSet.getString("ename");
+                String job = resultSet.getString("job");
+                int sal = resultSet.getInt("sal");
+                Integer mgr = resultSet.getInt("mgr");
+                if (resultSet.wasNull()) {
+                    mgr = null;
+                }
+                System.out.println(ename + " " + job + " " + sal + " " + mgr);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private static void callableStatement() {
         try (Connection connection = getConnection()) {
