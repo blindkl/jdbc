@@ -3,10 +3,9 @@ package pl.sda.jdbc;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity // must have
@@ -21,6 +20,9 @@ public class Customer {
     private Integer age;
     private String city;
     private String postalCode;
+    @OneToMany
+
+    private List<Order> orders;
 
 
 }
