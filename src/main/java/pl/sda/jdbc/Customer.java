@@ -28,7 +28,7 @@ public class Customer {
     private String pesel;
 
 
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
 
     private List<Order> orders;
 
@@ -40,6 +40,9 @@ public class Customer {
 
     @ElementCollection
     private Set<String> nickname = new HashSet<String>();
+
+    @OneToOne(mappedBy = "customer")
+    private Cart cart;
 }
 
 //POJO plain old java object
