@@ -54,7 +54,7 @@ public class JpaMain {
         return customer;
     }
 
-    public static Customer findCustomerByPesel(String pesel){
+    public static Customer findCustomerByPesel(String pesel) {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         TypedQuery<Customer> query = entityManager.createQuery(
                 "select c from Customer c where pesel = :pp", Customer.class
@@ -73,23 +73,30 @@ public class JpaMain {
         customer.setCustomerStatus(CustomerStatus.ACTIVATED);
         customer.getNickname().add("tomek");
 
-        Order o1 = new Order(null,new BigDecimal(500),customer.getLastName(), customer );
+        OrderLine ol1 = new OrderLine(null, null, "Rower", BigDecimal.valueOf(1500.9));
+        OrderLine ol2 = new OrderLine(null, null, "Oświetlenie", BigDecimal.valueOf(120.0));
+
+        Order o1 = new Order(null, new BigDecimal(500), customer.getLastName(), Lists.newArrayList(ol1), customer);
         Order o2 = new Order(
                 null,
                 new BigDecimal(1500),
                 customer.getLastName(),
-                customer );
+                Lists.newArrayList(ol2),
+                customer);
+
+        ol1.setOrderHeader(o1);
+        ol2.setOrderHeader(o2);
 //fixme
-        customer.setOrders(Lists.newArrayList(o1,o2));
+        customer.setOrders(Lists.newArrayList(o1, o2));
 
         Cart cart = new Cart();
         cart.setCustomer(customer);
         customer.setCart(cart);
 
         entityManager.getTransaction().begin();
-        entityManager.persist(o1);
-        entityManager.persist(o2);
-        entityManager.persist(cart);
+//        entityManager.persist(o1);
+//        entityManager.persist(o2);
+//        entityManager.persist(cart); // można było zrezygnować z powodu wykonanania operacji cascade
         entityManager.persist(customer);
         entityManager.getTransaction().commit();
         return customer;

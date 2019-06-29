@@ -3,6 +3,7 @@ package pl.sda.jdbc;
 import jdk.nashorn.internal.codegen.CompilerConstants;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,19 @@ public class JdbcMain {
 //        System.out.println("Employees by salary range");
 //        System.out.println(findEmployeeBySalaryRange(500, 2500));
 
-        sqlInjectionStatement("KING");
+//        sqlInjectionStatement("KING");
 //        sqlInjectionStatement("KING'; drop table sdajdbc.salgrade; -- ");
+        addPayout(new BigDecimal(500));
+    }
+
+    private static void addPayout(BigDecimal amount) {
+        String query = "Update sdajdbc.employee set total_payouts = COALESCE(total_payouts, 0) + ?";
+        try (Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setBigDecimal(1, amount);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void getPreparedStatement2() {
@@ -114,10 +126,10 @@ public class JdbcMain {
             preparedStatement.setInt(1, salaryMin);
             preparedStatement.setInt(2, salaryMax);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                employees.add(""+
-                        resultSet.getInt("empno")+
-                        resultSet.getString("ename")+
+            while (resultSet.next()) {
+                employees.add("" +
+                        resultSet.getInt("empno") +
+                        resultSet.getString("ename") +
                         resultSet.getInt("sal")
                 );
             }
@@ -132,7 +144,7 @@ public class JdbcMain {
             String query =
                     "select ename, job, sal " +
                             "from sdajdbc.employee " +
-                            "where ename = '"+firstName+"'";
+                            "where ename = '" + firstName + "'";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {

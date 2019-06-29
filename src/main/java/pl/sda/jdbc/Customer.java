@@ -28,7 +28,7 @@ public class Customer {
     private String pesel;
 
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST)
 
     private List<Order> orders;
 
@@ -41,7 +41,7 @@ public class Customer {
     @ElementCollection
     private Set<String> nickname = new HashSet<String>();
 
-    @OneToOne(mappedBy = "customer")
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.PERSIST)
     private Cart cart;
 }
 
