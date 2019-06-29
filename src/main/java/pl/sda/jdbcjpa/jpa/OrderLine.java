@@ -1,9 +1,10 @@
-package pl.sda.jdbc;
+package pl.sda.jdbcjpa.jpa;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.sda.jdbcjpa.BaseEntity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,10 +15,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Entity
 
-public class OrderLine {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+public class OrderLine extends BaseEntity {
 
     @ManyToOne
     private Order orderHeader; // nie używamy nazwy order, to jest słowo kluczowe sql

@@ -5,7 +5,7 @@
 
     <persistence-unit name="yyy">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>pl.sda.jdbc.Customer</class>
+        <class>pl.sda.jdbcjpa.jpa.Customer</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>

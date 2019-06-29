@@ -1,8 +1,5 @@
-package pl.sda.jdbc;
+package pl.sda.jdbcjpa.jdbc;
 
-import jdk.nashorn.internal.codegen.CompilerConstants;
-
-import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
@@ -109,7 +106,7 @@ public class JdbcMain {
 
     private static Connection getConnection() {
         try {
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "slepy7");
+            return DriverManager.getConnection("jdbcjpa:mysql://localhost:3306?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "slepy7");
         } catch (SQLException e) {
             e.printStackTrace();
         }
